@@ -66,9 +66,12 @@ def get_projects():
     projects = db.cursor().execute("SELECT * FROM projects").fetchall()
     db.close()
     print(f"Fetched {len(projects)} projects from database!")
-    return {"name": projects[0][1], "xml": projects[0][2]}
+    response = []
+    for project in projects:
+        response.append({"name": project[1], "xml": project[2]})
+    return response
 
 
 # If running the server directly from Python as a module
 if __name__ == "__main__":
-    uvicorn.run("app:app", host="localhost", port=31337, reload=True)
+    uvicorn.run("app:app", host="192.168.137.1", port=31337, reload=True)
